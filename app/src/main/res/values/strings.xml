@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Bill Splitting App</string>
+    <string name="add_people_title">Step 1: Who is splitting the bill?</string>
+    <string name="enter_name">Enter name</string>
+    <string name="add_person_button">Add</string>
+    <string name="add_people_warning">You haven\'t added anyone yet.</string>
+    <string name="continue_button">Continue</string>
+
+    <string name="add_items_title">Step 2: Add items to the bill</string>
+    <string name="add_items_warning">You haven\'t added any items yet!</string>
+    <string name="add_item_name_hint">Name of item purchased</string>
+    <string name="add_item_price_hint">Item purchase price</string>
+    <string name="add_item_who_paid">Who paid for the item?</string>
+    <string name="add_item_button">Add Item</string>
+    <string name="calculate_bill_button">Calculate Bill</string>
+
+    <string name="receipt_title">Step 3: Pay up!</string>
+    <string name="receipt_send_email_button">Send as Email</string>
+    <string name="receipt_start_over_button">Start Over</string>
+    <string name="receipt_bill_splitter_title">Bill Splitter:</string>
+    <string name="receipt_amount_owed_title">Amount Owed(+) or Due(-):</string>
+    <string name="receipt_instructions">To split the bill evenly:</string>
+</resources>
