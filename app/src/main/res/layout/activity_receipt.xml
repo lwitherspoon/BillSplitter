@@ -23,12 +23,58 @@
             android:textStyle="bold"/>
 
     <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/step3"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"
+            android:id="@+id/billTotal">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bill_total"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="10dp"/>
+        <TextView
+                android:text=""
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/billTotalText"
+                android:layout_weight="2"
+                android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/billTotal"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/perPersonAmount">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/per_person_total"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="10dp"/>
+        <TextView
+                android:text=""
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/perPersonText"
+                android:layout_weight="2"
+                android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
             android:id="@+id/titleRow"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:layout_below="@id/step3">
+            android:layout_below="@id/perPersonAmount">
         <TextView
                 android:text="@string/receipt_bill_splitter_title"
                 android:layout_width="fill_parent"
@@ -50,7 +96,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/titleRow">
+            android:layout_below="@+id/titleRow"
+            android:id="@+id/details">
         <TextView
                 android:text=""
                 android:layout_width="fill_parent"
@@ -71,8 +118,9 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="15dp">
+            android:layout_below="@+id/details"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="25dp">
         <TextView
                 android:text="@string/receipt_instructions"
                 android:textStyle="bold"
@@ -82,28 +130,30 @@
         <TextView
                 android:text=""
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:id="@+id/instructions"
                 android:layout_weight="0.11"
                 android:textSize="16sp" />
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <Button
-                    android:text="@string/receipt_send_email_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sendEmail"
-                    android:layout_weight="0.11"
-                    android:backgroundTint="@color/actionButton"
-                    android:textColor="@color/white"/>
-            <Button
-                    android:text="@string/receipt_start_over_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/startOver"
-                    android:layout_weight="0.11"/>
-        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+        <Button
+                android:text="@string/receipt_send_email_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sendEmail"
+                android:layout_weight="0.11"
+                android:backgroundTint="@color/actionButton"
+                android:textColor="@color/white"/>
+        <Button
+                android:text="@string/receipt_start_over_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/startOver"
+                android:layout_weight="0.11"/>
     </LinearLayout>
 </RelativeLayout>

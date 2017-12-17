@@ -9,7 +9,7 @@ import android.widget.*;
 import java.util.ArrayList;
 
 
-public class AddItems extends AppCompatActivity {
+public class AddItemsActivity extends AppCompatActivity {
 
     private EditText name;
     private EditText price;
@@ -49,14 +49,7 @@ public class AddItems extends AppCompatActivity {
         for (int i = 0; i < people.size(); i++) {
             addRadioButton(i);
         }
-
     }
-
-//    @Override
-//    public void onBackPressed() {
-//
-//        // startActivity(new Intent(AddItems.this, Popup.class));
-//    }
 
     public void addItem(View v) {
 
@@ -114,6 +107,7 @@ public class AddItems extends AppCompatActivity {
         // reset text fields and radio buttons
         name.setText("");
         price.setText("");
+        name.requestFocus();
         for (int j = 0; j < people.size(); j++) {
             radioButtons.get(j).setChecked(false);
         }
@@ -140,7 +134,7 @@ public class AddItems extends AppCompatActivity {
             Toast.makeText(this, "You need at least 1 item to split a bill.", Toast.LENGTH_LONG).show();
             return;
         }
-        Intent intent = new Intent(AddItems.this, Receipt.class);
+        Intent intent = new Intent(AddItemsActivity.this, ReceiptActivity.class);
 
         ArrayList<String> names = new ArrayList<>(people.size());
         ArrayList<Double> paid = new ArrayList<>(people.size());

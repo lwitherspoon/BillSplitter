@@ -2,14 +2,17 @@ package csc201.billsplitter;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.io.*;
 import java.util.ArrayList;
 
-public class Receipt extends AppCompatActivity {
+public class ReceiptActivity extends AppCompatActivity {
 
     private TextView names;
     private TextView owed;
@@ -22,6 +25,8 @@ public class Receipt extends AppCompatActivity {
     private ArrayList<String> emails;
     private double billTotal;
     private double amountOwedPerPerson;
+    private TextView billTotalDisplay;
+    private TextView perPersonText;
 
     private final static String TAG = "BillSplitter";
 
@@ -35,6 +40,8 @@ public class Receipt extends AppCompatActivity {
         names = (TextView) findViewById(R.id.names);
         owed = (TextView) findViewById(R.id.owed);
         instructions = (TextView) findViewById(R.id.instructions);
+        billTotalDisplay = (TextView) findViewById(R.id.billTotalText);
+        perPersonText = (TextView) findViewById(R.id.perPersonText);
 
         Intent intent = getIntent();
         people = intent.getExtras().getStringArrayList("NAMES");
@@ -46,19 +53,26 @@ public class Receipt extends AppCompatActivity {
         ArrayList<String> dueNames = new ArrayList<String>();
         ArrayList<Double> dueAmounts = new ArrayList<Double>();
 
-        // Get total bill sum
+        // Get total bill sum and display
         for (double amount : amountPaid) {
             billTotal += amount;
         }
+        billTotalDisplay.setText(String.format("$%.2f", billTotal));
 
-        // Calculate $ amount owed per person
+        // Calculate $ amount owed per person and display
         amountOwedPerPerson = billTotal / people.size();
+        perPersonText.setText(String.format("$%.2f", amountOwedPerPerson));
 
         // Build the string of emails to send to
-        final StringBuilder emailList = new StringBuilder();
+//        final StringBuilder emailList = new StringBuilder();
+//
+//        for (String i : emails) {
+//            emailList.append(i + ",");
+//        }
 
-        for (String i : emails) {
-            emailList.append(i + ",");
+        final String[] listOfEmails = new String[emails.size()];
+        for (int i = 0; i < emails.size(); i++) {
+            listOfEmails[i] = emails.get(i);
         }
 
 
@@ -74,7 +88,7 @@ public class Receipt extends AppCompatActivity {
         }
 
         // For each person who owes money, add name and $ owed to string for display
-        for(int i = 0; i < oweNames.size(); i++){
+        for (int i = 0; i < oweNames.size(); i++) {
             String namesOweText = String.format("%s%s\n", names.getText(), oweNames.get(i));
             String owedText = String.format("%s$%.2f\n", owed.getText(), oweAmounts.get(i));
             names.setText(namesOweText);
@@ -82,9 +96,18 @@ public class Receipt extends AppCompatActivity {
         }
 
         // For each person who is due money, add name and $ due to string for display
-        for(int i = 0; i < dueNames.size(); i++){
+        for (int i = 0; i < dueNames.size(); i++) {
+            double dueAmount = dueAmounts.get(i);
+            String dueText;
+
+            if (dueAmount != 0.0) {
+                dueText = String.format("%s-$%.2f\n", owed.getText(), dueAmounts.get(i));
+            } else {
+                dueText = String.format("%s$%.2f\n", owed.getText(), dueAmounts.get(i));
+            }
+
             String namesDueText = String.format("%s%s\n", names.getText(), dueNames.get(i));
-            String dueText = String.format("%s-$%.2f\n", owed.getText(), dueAmounts.get(i));
+
             names.setText(namesDueText);
             owed.setText(dueText);
         }
@@ -141,7 +164,7 @@ public class Receipt extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Receipt.this, MainActivity.class);
+                Intent intent = new Intent(ReceiptActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -149,28 +172,66 @@ public class Receipt extends AppCompatActivity {
         /*
          * Launch user's default email client with a new email message with the following:
          *  - The To: field pre-populated with the emails listed in Step 1,
-         *  - The Subject: field pre-populated with "Bill Splitter: Receipt"
+         *  - The Subject: field pre-populated with "Bill Splitter: ReceiptActivity"
          *  - The Body: field pre-populated with the data displayed in Step 3
          */
         sendEmailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                final Intent emailIntent = new Intent(android.content.Intent.ACTION_SENDTO);
+                final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
                 StringBuilder emailMessage = new StringBuilder("To split the bill evenly:\n\n");
                 emailMessage.append(instructions.getText());
                 emailMessage.append("\nThanks!");
 
-                emailIntent.setType("message/rfc822");
-                emailIntent.setData(Uri.parse("mailto:" + emailList));
+                try {
+                    File file;
 
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Bill Splitter: Receipt");
+                    generateReceiptFile(emailMessage.toString());
+
+                    File[] files2 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).listFiles();
+//                    String[] files = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).list();
+//                    Toast.makeText(ReceiptActivity.this, files.toString(), Toast.LENGTH_LONG).show();
+
+//                    file = new File(files[0]);
+                    file = files2[0];
+
+                    Uri path = Uri.fromFile(file);
+                    emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+
+                } catch(Exception ex) {
+                    // do something
+//                    Toast.makeText(ReceiptActivity.this, "Error 2: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                emailIntent.setType("vnd.android.cursor.dir/email");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, listOfEmails);
+
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Bill Splitter: ReceiptActivity");
                 emailIntent.putExtra(Intent.EXTRA_TEXT, emailMessage.toString());
-                startActivity(emailIntent);
+                startActivity(Intent.createChooser(emailIntent , "Send email..."));
 
             }
         });
+    }
 
+    public void generateReceiptFile(String msg) {
+        try {
+            // Creates a file in the primary external storage space of the
+            // current application.
+            // If the file does not exists, it is created.
+            File testFile = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "receipt.txt");
+            // Toast.makeText(ReceiptActivity.this, "" + testFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            if (!testFile.exists())
+                testFile.createNewFile();
 
+            // Adds a line to the file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(testFile, false));
+            writer.write(msg);
+            writer.close();
+
+        } catch (Exception e) {
+//            Toast.makeText(ReceiptActivity.this,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

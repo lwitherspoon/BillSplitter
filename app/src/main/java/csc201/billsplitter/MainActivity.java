@@ -45,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // If trying to add too many people, display error message
+        if(people.size() >= 20) {
+            Toast.makeText(this, "You can only add up to 20 people.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // If no name, display error message
         if(newEmail.equals("")) {
             Toast.makeText(this, "You must enter an email.", Toast.LENGTH_SHORT).show();
@@ -64,11 +70,12 @@ public class MainActivity extends AppCompatActivity {
             names.setText("");
         }
 
-        names.setText(names.getText() + newName + " " + newEmail + "\n");
+        names.setText(names.getText() + newName + " - " + newEmail + "\n");
 
         // Reset input field for next name
         name.setText("");
         email.setText("");
+        name.requestFocus();
     }
 
     public void next(View v) {
@@ -77,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        Intent intent = new Intent(MainActivity.this, AddItems.class);
+        Intent intent = new Intent(MainActivity.this, AddItemsActivity.class);
         intent.putExtra("PEOPLE", people);
         startActivity(intent);
     }

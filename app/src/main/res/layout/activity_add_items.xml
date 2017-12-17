@@ -27,7 +27,9 @@
             android:hint="@string/add_item_name_hint"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="70dp" />
+            android:layout_marginTop="70dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
 
     <EditText
             android:layout_width="match_parent"
@@ -47,7 +49,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/itemPrice"
-            android:layout_margin="15dp" />
+            android:layout_margin="15dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     <Button
             android:text="@string/add_item_button"
@@ -58,7 +62,9 @@
             android:layout_gravity="end"
             android:layout_below="@+id/scroller"
             android:layout_alignParentEnd="true"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/actionButton"
+            android:textColor="@color/white"/>
 
     <HorizontalScrollView
             android:id="@+id/scroller"
@@ -94,7 +100,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="italic" />
 
     <Button

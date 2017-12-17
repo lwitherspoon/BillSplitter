@@ -16,8 +16,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="csc201.billsplitter.AddItems" android:parentActivityName="csc201.billsplitter.MainActivity"/>
-        <activity android:name="csc201.billsplitter.Receipt" />
+        <activity android:name="csc201.billsplitter.AddItemsActivity" android:parentActivityName="csc201.billsplitter.MainActivity"/>
+        <activity android:name="csc201.billsplitter.ReceiptActivity" />
     </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

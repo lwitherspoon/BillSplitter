@@ -21,40 +21,57 @@
             android:textSize="20sp"
             android:textStyle="bold"/>
 
-    <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="6"
-            android:id="@+id/names"
-            android:hint="@string/enter_name"
-            android:layout_marginTop="50dp"
-            android:selectAllOnFocus="true"
-            android:layout_below="@+id/mainInstructions"
-            android:layout_alignParentTop="true" />
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/mainInstructions"
+                 android:id="@+id/tableLayout">
 
-    <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="7"
-            android:id="@+id/emails"
-            android:hint="Enter email"
-            android:layout_marginTop="50dp"
-            android:selectAllOnFocus="true"
-            android:layout_toRightOf="@+id/names"
-            android:inputType="textEmailAddress"/>
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="15dp">
 
-    <Button
-            android:text="@string/add_person_button"
-            android:layout_height="wrap_content"
-            android:id="@+id/add"
-            android:visibility="visible"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/emails"
-            android:onClick="addPerson" />
+            <EditText
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textPersonName"
+                    android:layout_column="0"
+                    android:id="@+id/names"
+                    android:hint="@string/enter_name"
+                    android:selectAllOnFocus="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
+
+            <EditText
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_column="1"
+                    android:id="@+id/emails"
+                    android:hint="@string/enter_email"
+                    android:selectAllOnFocus="true"
+                    android:inputType="textEmailAddress"/>
+
+        </TableRow>
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <Button
+                    android:text="@string/add_person_button"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/add"
+                    android:visibility="visible"
+                    android:layout_marginTop="10dp"
+                    android:onClick="addPerson"
+                    android:backgroundTint="@color/actionButton"
+                    android:textColor="@color/white" />
+        </TableRow>
+    </TableLayout>
 
     <TextView
             android:text="@string/add_people_warning"
@@ -62,9 +79,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/people"
             android:layout_marginTop="27dp"
-            android:layout_below="@+id/emails"
+            android:layout_below="@+id/tableLayout"
             android:layout_alignParentStart="true"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="italic" />
 
     <Button
